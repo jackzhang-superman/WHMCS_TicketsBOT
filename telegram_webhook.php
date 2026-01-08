@@ -1,5 +1,4 @@
 <?php
-// ===== 运行日志（确认 Telegram POST 命中）=====
 
 require_once __DIR__ . '/init.php';
 
@@ -32,8 +31,9 @@ if (stripos($text, '/close') === 0) {
 localAPI('AddTicketReply', [
     'ticketid'      => $ticketId,
     'message'       => $text,
-    'adminusername' => 'Cyberfly Team',
+    'adminusername' => 'TICKETSBOT',
 ]);
 
 http_response_code(200);
 echo 'OK';
+
