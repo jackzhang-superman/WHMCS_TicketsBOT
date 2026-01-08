@@ -34,8 +34,8 @@ add_hook('TicketUserReply', 1, function ($vars) {
 // 发送 Telegram 消息的函数
 function sendTelegramMessage($text) {
     // 配置 Telegram Bot Token 和 Chat ID
-    $TG_TOKEN = '8224905722:AAEDazc_2VMmFdJwJ9iSiW6PI6GyERJ2_Lg';
-    $TG_CHATID = '-1003517119517'; // 替换为你实际的群组 chat_id
+    $TG_TOKEN = ''; //Telegram Bot Token
+    $TG_CHATID = ''; // 替换为你实际的群组 chat_id(请注意需要是超级群 -1XXXXXXX格式)
     
     // Telegram API 请求 URL
     $url = "https://api.telegram.org/bot{$TG_TOKEN}/sendMessage";
@@ -68,3 +68,4 @@ function sendTelegramMessage($text) {
     
     curl_close($ch); // 关闭 cURL
 }
+
