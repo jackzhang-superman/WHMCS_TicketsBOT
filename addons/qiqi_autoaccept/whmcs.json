@@ -4,18 +4,19 @@
   "name": "qiqi_autoaccept",
   "license": "proprietary",
   "category": "utilities",
+  "version": "1.2.1",
   "description": {
     "name": "Qiqi Auto Accept",
-    "tagline": "Auto-accept paid and free pending orders; optionally delete stale unpaid pending orders.",
-    "short": "Accepts Pending orders immediately when the invoice is Paid, or when a free-trial order is placed (amount=0), and can delete Unpaid Pending orders older than a set number of hours.",
-    "long": "Qiqi Auto Accept watches InvoicePaid, OrderPaid, and AfterShoppingCartCheckout and calls localAPI AcceptOrder for Paid+Pending and free Pending (amount=0, invoiceid=0) orders. AfterCronJob catches leftovers and optionally deletes stale Unpaid + Pending orders. Refunded, Cancelled, Collections, Fraud, and non-Pending orders are never modified.",
+    "tagline": "自动接受已付与免费 Pending 订单；可选删除超时未付 Pending。",
+    "short": "发票 Paid 或免费试用下单后立即接受 Pending，并可删除超过设定小时数的未付 Pending。",
+    "long": "Qiqi Auto Accept 监听 InvoicePaid / OrderPaid / AfterShoppingCartCheckout，对已付 Pending 与免费 Pending（金额 0、无发票）调用 AcceptOrder；AfterCronJob 补漏并可删除超时未付 Pending。不处理退款/取消/催收/欺诈/非 Pending。连续失败达阈值将暂停并经本站 Telegram 告警一次。",
     "features": [
-      "Accept paid pending orders immediately on InvoicePaid / OrderPaid",
-      "Accept free-trial Pending orders on AfterShoppingCartCheckout + cron catch-up",
-      "AfterCronJob catch-up for leftover Paid + Pending orders",
-      "Optional delete of stale Unpaid + Pending orders (default 6 hours)",
-      "Never touches Refunded, Cancelled, Collections, Fraud, or non-Pending orders",
-      "Admin log with today counts and last error"
+      "发票 Paid 后立即接受 Pending（InvoicePaid / OrderPaid）",
+      "免费试用 Pending 自动接受（结账 + cron 补漏）",
+      "AfterCronJob 补漏已付 Pending",
+      "可选删除超时未付 Pending（默认 6 小时）",
+      "连续错误暂停 + 本站 Telegram 一次告警",
+      "管理页日志、今日计数与最近错误"
     ]
   },
   "support": {

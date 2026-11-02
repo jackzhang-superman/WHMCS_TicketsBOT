@@ -1001,7 +1001,7 @@ class AutoAccept
                     $orderId,
                     $invoiceId,
                     'paused',
-                    'Paused ' . $action . ' after ' . $count . ' consecutive errors: ' . $summary,
+                    '已暂停 ' . $action . '（连续 ' . $count . ' 次错误）: ' . $summary,
                     ''
                 );
                 self::activity(
@@ -1043,7 +1043,7 @@ class AutoAccept
             (int) $row->order_id,
             (int) $row->invoice_id,
             'resume',
-            'Manual resume of ' . (string) $row->action . ' (pause id ' . $pauseId . ')',
+            '手动恢复 ' . (string) $row->action . '（暂停 id ' . $pauseId . '）',
             ''
         );
         self::activity(
@@ -1243,14 +1243,13 @@ class AutoAccept
                 return htmlspecialchars((string) $t, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
             };
             $siteLabel = self::SITE_LABEL;
-            $text = "⏸ <b>Auto Accept paused</b>\n"
-                . "Site: <b>" . $esc($siteLabel) . "</b>\n"
-                . "Invoice #<code>" . (int) $invoiceId . "</code> / Order #<code>" . (int) $orderId . "</code>\n"
-                . "Action: <code>" . $esc($action) . "</code>\n"
-                . "Consecutive errors: <b>" . (int) $count . "</b>\n"
-                . "Last error: " . $esc($summary) . "\n\n"
-                . "Retries paused for this invoice/action. "
-                . "Resume in WHMCS → Addon Modules → " . $esc($siteLabel) . " Auto Accept.";
+            $text = "⏸ <b>Auto Accept 已暂停</b>\n"
+                . "站点: <b>" . $esc($siteLabel) . "</b>\n"
+                . "发票 #<code>" . (int) $invoiceId . "</code> / 订单 #<code>" . (int) $orderId . "</code>\n"
+                . "动作: <code>" . $esc($action) . "</code>\n"
+                . "连续错误次数: <b>" . (int) $count . "</b>\n"
+                . "摘要: " . $esc($summary) . "\n\n"
+                . "已停止重试。请到 WHMCS → 插件模块 → " . $esc($siteLabel) . " Auto Accept 点「恢复」。";
 
             // Prefer site helper when no token override (uses that site's bot only).
             if ($overrideToken === '' && function_exists('tg_send_message')) {

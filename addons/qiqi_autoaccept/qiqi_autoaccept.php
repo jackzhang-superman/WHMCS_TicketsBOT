@@ -25,83 +25,75 @@ function qiqi_autoaccept_config()
 {
     return [
         'name' => 'Qiqi Auto Accept',
-        'description' => 'Immediately accepts Pending orders when their invoice becomes Paid '
-            . '(InvoicePaid / OrderPaid, with an AfterCronJob catch-up). Also accepts free-trial '
-            . 'Pending orders (amount=0 / invoiceid=0) via AfterShoppingCartCheckout + cron. '
-            . 'Optionally deletes stale Unpaid + Pending orders older than a configurable number of hours. '
-            . 'Never touches Refunded, Cancelled, Collections, Fraud, or non-Pending orders. '
-            . 'Zero-amount invoices that WHMCS marks Paid are treated as paid. '
-            . 'Requires the WHMCS system cron (crons/cron.php). '
-            . '立即在发票 Paid 时接受 Pending 订单；免费试用 Pending 亦自动接受；可选删除超时未支付的 Pending 订单。'
-            . '不处理退款/取消/催收/欺诈/非 Pending 订单。',
+        'description' => '发票变为 Paid 时立即接受 Pending 订单（InvoicePaid / OrderPaid，并有 AfterCronJob 补漏）。免费试用 Pending（金额 0 / 无发票）亦经 AfterShoppingCartCheckout + cron 自动接受。可选删除超过设定小时数的未支付 Pending 订单。不处理退款/取消/催收/欺诈/非 Pending 订单。零金额且被 WHMCS 标为 Paid 的发票按已付处理。需保持 WHMCS 系统 cron（crons/cron.php）运行。',
         'author' => 'Qiqi',
         'language' => 'english',
-        'version' => '1.2.0',
+        'version' => '1.2.1',
         'fields' => [
             'enable_autoaccept' => [
-                'FriendlyName' => 'Enable auto-accept paid pending',
+                'FriendlyName' => '启用：自动接受已付 Pending',
                 'Type' => 'yesno',
                 'Default' => 'on',
-                'Description' => 'Accept Pending orders as soon as the related invoice status is Paid. / 发票 Paid 后立即接受 Pending 订单。',
+                'Description' => '发票 Paid 后立即接受 Pending 订单。',
             ],
             'enable_free_autoaccept' => [
-                'FriendlyName' => 'Enable auto-accept free pending',
+                'FriendlyName' => '启用：自动接受免费 Pending',
                 'Type' => 'yesno',
                 'Default' => 'on',
-                'Description' => 'Accept free-trial / free product Pending orders (amount=0, no invoice) on checkout and via cron catch-up. / 自动接受免费试用 Pending 订单（金额 0、无发票）。',
+                'Description' => '结账时及 cron 补漏自动接受免费试用 Pending 订单（金额 0、无发票）。',
             ],
             'autosetup' => [
-                'FriendlyName' => 'Auto-setup products on accept',
+                'FriendlyName' => '接受时自动开通产品',
                 'Type' => 'yesno',
                 'Default' => 'on',
-                'Description' => 'Passed to AcceptOrder as autosetup. / 接受订单时自动开通产品。',
+                'Description' => '传给 AcceptOrder 的 autosetup；接受订单时自动开通产品。',
             ],
             'sendemail' => [
-                'FriendlyName' => 'Send emails on accept',
+                'FriendlyName' => '接受时发送邮件',
                 'Type' => 'yesno',
                 'Default' => 'on',
-                'Description' => 'Passed to AcceptOrder as sendemail. / 接受订单时发送自动邮件。',
+                'Description' => '传给 AcceptOrder 的 sendemail；接受订单时发送自动邮件。',
             ],
             'registrar' => [
-                'FriendlyName' => 'Auto-register domains on accept',
+                'FriendlyName' => '接受时自动注册域名',
                 'Type' => 'yesno',
                 'Default' => 'on',
-                'Description' => 'Passed to AcceptOrder as sendregistrar (WHMCS 8.11 boolean). / 接受订单时向注册商提交域名注册。',
+                'Description' => '传给 AcceptOrder 的 sendregistrar（WHMCS 8.11 布尔）；接受订单时向注册商提交域名注册。',
             ],
             'enable_delete_unpaid' => [
-                'FriendlyName' => 'Enable delete unpaid pending',
+                'FriendlyName' => '启用：删除超时未付 Pending',
                 'Type' => 'yesno',
                 'Default' => 'on',
-                'Description' => 'On each WHMCS cron tick, delete Pending orders whose invoice is still Unpaid and older than the hours below. / 定时删除超时未支付的 Pending 订单（DeleteOrder，不是仅取消）。',
+                'Description' => '每次 WHMCS cron 时删除超时仍未支付的 Pending 订单（DeleteOrder，不是仅取消）。',
             ],
             'unpaid_max_hours' => [
-                'FriendlyName' => 'Unpaid pending max age hours',
+                'FriendlyName' => '未付 Pending 最长保留小时数',
                 'Type' => 'text',
                 'Size' => '6',
                 'Default' => '6',
-                'Description' => 'Hours after tblorders.date before an Unpaid + Pending order is deleted. Default 6. / 未支付 Pending 订单保留小时数，默认 6。',
+                'Description' => '自 tblorders.date 起算；超时删除未付 Pending。默认 6。',
             ],
             'admin_username' => [
-                'FriendlyName' => 'Admin username for localAPI',
+                'FriendlyName' => 'localAPI 管理员用户名',
                 'Type' => 'text',
                 'Size' => '30',
                 'Default' => '',
-                'Description' => 'Optional. Leave blank to omit (WHMCS 7.2+). / 可选，留空则不传 admin 用户名。',
+                'Description' => '可选；留空则不传 admin 用户名（WHMCS 7.2+）。',
             ],
 
             'tg_bot_token' => [
-                'FriendlyName' => 'Telegram bot token (pause alerts)',
+                'FriendlyName' => 'Telegram Bot Token（暂停告警）',
                 'Type' => 'password',
                 'Size' => '60',
                 'Default' => '',
-                'Description' => 'Optional override for THIS site only. Leave blank to use this WHMCS site\'s includes/telegram config (same bot as telegram_ticket_push). Never paste another site\'s token. / 可选覆盖；留空则用本站 includes/telegram（与工单推送同一 bot）。不要填另一站点的 token。',
+                'Description' => '仅本站可选覆盖；留空则用本站 includes/telegram（与工单推送同一 bot）。不要填另一站点的 token。',
             ],
             'tg_chat_id' => [
-                'FriendlyName' => 'Telegram chat id (pause alerts)',
+                'FriendlyName' => 'Telegram Chat ID（暂停告警）',
                 'Type' => 'text',
                 'Size' => '30',
                 'Default' => '',
-                'Description' => 'Optional override chat/channel id for pause alerts on THIS site. Leave blank to use includes/telegram TG_CHAT_ID. / 可选覆盖；留空用本站 TG_CHAT_ID。',
+                'Description' => '仅本站可选覆盖聊天/频道；留空用本站 TG_CHAT_ID。',
             ],
         ],
     ];
@@ -122,15 +114,12 @@ function qiqi_autoaccept_activate()
         }
         return [
             'status' => 'success',
-            'description' => 'Qiqi Auto Accept activated. Log table mod_qiqi_autoaccept_log is ready. '
-                . 'Configure the module, save changes, and keep the WHMCS cron running. '
-                . 'Do not stop the existing human/browser pending-order process until this addon is observed working in production. '
-                . '已激活。请配置并保存，确认 cron 正在运行。在生产环境验证成功前，不要停掉现有人工/浏览器待审订单流程。',
+            'description' => '已激活。日志表 mod_qiqi_autoaccept_log 已就绪。请配置并保存，确认 cron 正在运行。在生产环境验证成功前，不要停掉现有人工/浏览器待审订单流程。',
         ];
     } catch (\Exception $e) {
         return [
             'status' => 'error',
-            'description' => 'Unable to create mod_qiqi_autoaccept_log: ' . $e->getMessage(),
+            'description' => '无法创建 mod_qiqi_autoaccept_log: ' . $e->getMessage(),
         ];
     }
 }
@@ -147,9 +136,7 @@ function qiqi_autoaccept_deactivate()
     }
     return [
         'status' => 'success',
-        'description' => 'Qiqi Auto Accept deactivated. Hooks will no longer run. '
-            . 'The log table mod_qiqi_autoaccept_log was not dropped. '
-            . '已停用；日志表已保留未删除。',
+        'description' => '已停用；Hooks 不再运行。日志表 mod_qiqi_autoaccept_log 已保留未删除。',
     ];
 }
 
@@ -171,22 +158,22 @@ function qiqi_autoaccept_output($vars)
         $rid = (int) $_POST['aa_resume_id'];
         try {
             if (AutoAccept::resumePause($rid)) {
-                echo '<div class="alert alert-success">Resumed pause #' . $rid . ' / 已恢复暂停 #' . $rid . '</div>';
+                echo '<div class="alert alert-success">已恢复暂停 #' . $rid . '</div>';
             } else {
-                echo '<div class="alert alert-warning">Pause #' . $rid . ' not found / 未找到</div>';
+                echo '<div class="alert alert-warning">未找到暂停 #' . $rid . '</div>';
             }
         } catch (\Throwable $e) {
-            echo '<div class="alert alert-danger">Resume failed: ' . $h($e->getMessage()) . '</div>';
+            echo '<div class="alert alert-danger">恢复失败: ' . $h($e->getMessage()) . '</div>';
         }
     }
 
     if (!empty($_POST['aa_force_prune'])) {
         try {
             $pr = AutoAccept::pruneLogs(true);
-            echo '<div class="alert alert-info">Log prune: deleted=' . (int) $pr['deleted']
-                . ' kept=' . (int) $pr['kept'] . '</div>';
+            echo '<div class="alert alert-info">日志清理: 已删除=' . (int) $pr['deleted']
+                . ' 保留=' . (int) $pr['kept'] . '</div>';
         } catch (\Throwable $e) {
-            echo '<div class="alert alert-danger">Prune failed: ' . $h($e->getMessage()) . '</div>';
+            echo '<div class="alert alert-danger">清理失败: ' . $h($e->getMessage()) . '</div>';
         }
     }
 
@@ -194,7 +181,7 @@ function qiqi_autoaccept_output($vars)
         $data = AutoAccept::adminLogPage($page, 50);
         $paused = AutoAccept::listPaused(100);
     } catch (\Throwable $e) {
-        echo '<div class="alert alert-danger">Unable to load logs: '
+        echo '<div class="alert alert-danger">无法加载日志: '
             . $h($e->getMessage())
             . '</div>';
         return;
@@ -203,56 +190,55 @@ function qiqi_autoaccept_output($vars)
     $on = static function (string $key) use ($vars): string {
         $raw = (string) ($vars[$key] ?? '');
         $yes = AutoAccept::isYes($raw !== '' ? $raw : 'off');
-        return $yes ? 'ON / 开' : 'OFF / 关';
+        return $yes ? '开' : '关';
     };
 
     $lastError = $data['last_error'];
-    $lastErrorHtml = 'None / 无';
+    $lastErrorHtml = '无';
     if ($lastError) {
         $lastErrorHtml = $h($lastError->created_at)
-            . ' — order #' . $h($lastError->order_id)
-            . ' invoice #' . $h($lastError->invoice_id)
+            . ' — 订单 #' . $h($lastError->order_id)
+            . ' 发票 #' . $h($lastError->invoice_id)
             . ' — ' . $h($lastError->reason);
     }
 
     echo '<h2>Qiqi Auto Accept</h2>';
-    echo '<p>Auto-accept paid pending orders; pause after 5 consecutive errors (one Telegram via this site\'s bot); rolling log retention.<br>';
-    echo '支付后自动审单；同一发票动作连续失败 5 次则暂停并经<strong>本站</strong> Telegram bot 告警一次；日志自动滚动清理。</p>';
+    echo '<p>支付后自动审单；同一发票动作连续失败 5 次则暂停并经<strong>本站</strong> Telegram bot 告警一次；日志自动滚动清理。</p>';
 
     echo '<div class="row" style="margin-bottom:16px;">';
-    echo '  <div class="col-md-3"><div class="panel panel-success"><div class="panel-heading">Accepted today / 今日已接受</div>';
+    echo '  <div class="col-md-3"><div class="panel panel-success"><div class="panel-heading">今日已接受</div>';
     echo '  <div class="panel-body" style="font-size:28px;">' . (int) $data['accepted_today'] . '</div></div></div>';
-    echo '  <div class="col-md-3"><div class="panel panel-warning"><div class="panel-heading">Deleted today / 今日已删除</div>';
+    echo '  <div class="col-md-3"><div class="panel panel-warning"><div class="panel-heading">今日已删除</div>';
     echo '  <div class="panel-body" style="font-size:28px;">' . (int) $data['deleted_today'] . '</div></div></div>';
-    echo '  <div class="col-md-3"><div class="panel panel-danger"><div class="panel-heading">Paused / 已暂停</div>';
+    echo '  <div class="col-md-3"><div class="panel panel-danger"><div class="panel-heading">已暂停</div>';
     echo '  <div class="panel-body" style="font-size:28px;">' . count($paused) . '</div></div></div>';
-    echo '  <div class="col-md-3"><div class="panel panel-danger"><div class="panel-heading">Last error / 最近错误</div>';
+    echo '  <div class="col-md-3"><div class="panel panel-danger"><div class="panel-heading">最近错误</div>';
     echo '  <div class="panel-body">' . $lastErrorHtml . '</div></div></div>';
     echo '</div>';
 
     echo '<p>';
-    echo 'Auto-accept: <strong>' . $h($on('enable_autoaccept')) . '</strong> &nbsp;|&nbsp; ';
-    echo 'Free auto-accept: <strong>' . $h($on('enable_free_autoaccept')) . '</strong> &nbsp;|&nbsp; ';
-    echo 'Auto-setup: <strong>' . $h($on('autosetup')) . '</strong> &nbsp;|&nbsp; ';
-    echo 'Delete unpaid: <strong>' . $h($on('enable_delete_unpaid')) . '</strong> &nbsp;|&nbsp; ';
-    echo 'Max age hours: <strong>' . $h((string) ($vars['unpaid_max_hours'] ?? '6')) . '</strong> &nbsp;|&nbsp; ';
-    echo 'Log rows: <strong>' . (int) $data['total'] . '</strong> (~' . (int) $data['pages'] . ' pages)';
+    echo '自动接受: <strong>' . $h($on('enable_autoaccept')) . '</strong> &nbsp;|&nbsp; ';
+    echo '免费自动接受: <strong>' . $h($on('enable_free_autoaccept')) . '</strong> &nbsp;|&nbsp; ';
+    echo '自动开通: <strong>' . $h($on('autosetup')) . '</strong> &nbsp;|&nbsp; ';
+    echo '删除未付: <strong>' . $h($on('enable_delete_unpaid')) . '</strong> &nbsp;|&nbsp; ';
+    echo '最长保留小时: <strong>' . $h((string) ($vars['unpaid_max_hours'] ?? '6')) . '</strong> &nbsp;|&nbsp; ';
+    echo '日志行数: <strong>' . (int) $data['total'] . '</strong>（约 ' . (int) $data['pages'] . ' 页）';
     echo '</p>';
 
     $tgTok = trim((string) ($vars['tg_bot_token'] ?? ''));
     $tgChat = trim((string) ($vars['tg_chat_id'] ?? ''));
-    echo '<p class="text-muted">Pause Telegram: addon override token '
-        . ($tgTok !== '' ? '<strong>SET</strong>' : '<strong>blank → site includes/telegram bot</strong>')
-        . '; chat ' . ($tgChat !== '' ? '<strong>SET (' . $h($tgChat) . ')</strong>' : '<strong>blank → site TG_CHAT_ID</strong>')
-        . '. CF and qiqi must use separate bots. / 告警 bot：插件覆盖或本站 telegram 配置；两站不得共用同一 bot token。</p>';
+    echo '<p class="text-muted">暂停告警 Telegram：插件覆盖 token '
+        . ($tgTok !== '' ? '<strong>已设置</strong>' : '<strong>留空 → 本站 includes/telegram bot</strong>')
+        . '；chat ' . ($tgChat !== '' ? '<strong>已设置 (' . $h($tgChat) . ')</strong>' : '<strong>留空 → 本站 TG_CHAT_ID</strong>')
+        . '。CF 与 qiqi 必须使用独立 bot，不得共用同一 bot token。</p>';
 
-    echo '<h3>Paused invoices / 已暂停的发票动作</h3>';
-    echo '<p class="text-muted">After 5 consecutive errors, retries stop until you Resume (or success path clears). One Telegram per pause. / 连续 5 次失败后暂停，点 Resume 恢复；每次暂停只告警一次。</p>';
+    echo '<h3>已暂停的发票动作</h3>';
+    echo '<p class="text-muted">连续 5 次失败后暂停重试，点「恢复」或成功路径清除后才会继续；每次暂停只告警一次。</p>';
     echo '<table class="table table-striped table-bordered"><thead><tr>';
-    echo '<th>ID</th><th>Invoice</th><th>Order</th><th>Action</th><th>Errors</th><th>Paused at</th><th>Last error</th><th></th>';
+    echo '<th>ID</th><th>发票</th><th>订单</th><th>动作</th><th>错误次数</th><th>暂停时间</th><th>最近错误</th><th></th>';
     echo '</tr></thead><tbody>';
     if (count($paused) === 0) {
-        echo '<tr><td colspan="8">None paused / 当前无暂停</td></tr>';
+        echo '<tr><td colspan="8">当前无暂停</td></tr>';
     }
     foreach ($paused as $row) {
         echo '<tr>';
@@ -263,30 +249,30 @@ function qiqi_autoaccept_output($vars)
         echo '<td>' . (int) $row->consecutive_errors . '</td>';
         echo '<td>' . $h($row->paused_at) . '</td>';
         echo '<td>' . $h($row->last_error) . '</td>';
-        echo '<td><form method="post" action="' . $h($modulelink) . '" style="margin:0;" onsubmit="return confirm(\'Resume retries?\');">';
+        echo '<td><form method="post" action="' . $h($modulelink) . '" style="margin:0;" onsubmit="return confirm(\'确认恢复重试？\');">';
         echo '<input type="hidden" name="aa_resume_id" value="' . (int) $row->id . '"/>';
-        echo '<button type="submit" class="btn btn-xs btn-primary">Resume / 恢复</button></form></td>';
+        echo '<button type="submit" class="btn btn-xs btn-primary">恢复</button></form></td>';
         echo '</tr>';
     }
     echo '</tbody></table>';
 
-    echo '<form method="post" action="' . $h($modulelink) . '" style="margin-bottom:16px;" onsubmit="return confirm(\'Force prune logs now?\');">';
+    echo '<form method="post" action="' . $h($modulelink) . '" style="margin-bottom:16px;" onsubmit="return confirm(\'确认立即清理日志？\');">';
     echo '<input type="hidden" name="aa_force_prune" value="1"/>';
-    echo '<button type="submit" class="btn btn-default btn-sm">Force log prune now / 立即清理日志</button>';
-    echo ' <span class="text-muted">Retention: errors 14d, accept/delete 7d, skip/paused 3d; max 30 errors/invoice. Daily on cron.</span>';
+    echo '<button type="submit" class="btn btn-default btn-sm">立即清理日志</button>';
+    echo ' <span class="text-muted">保留策略：error 14 天，accept/delete 7 天，skip/paused/resume 3 天；每发票最多 30 条 error。每日 cron 执行。</span>';
     echo '</form>';
 
-    echo '<p class="text-muted">SQL resume example: '
+    echo '<p class="text-muted">SQL 恢复示例: '
         . '<code>UPDATE ' . $h(AutoAccept::PAUSE_TABLE)
         . ' SET paused=0, consecutive_errors=0, alert_sent=0, paused_at=NULL WHERE id=PAUSE_ID;</code></p>';
 
-    echo '<h3>Activity log / 活动日志 <small>(' . (int) $data['total'] . ' rows)</small></h3>';
+    echo '<h3>活动日志 <small>（' . (int) $data['total'] . ' 行）</small></h3>';
     echo '<table class="table table-striped table-bordered" style="width:100%;">';
     echo '<thead><tr>';
-    echo '<th>ID</th><th>Time</th><th>Order</th><th>Invoice</th><th>Action</th><th>Reason</th><th>API result</th>';
+    echo '<th>ID</th><th>时间</th><th>订单</th><th>发票</th><th>动作</th><th>原因</th><th>API 结果</th>';
     echo '</tr></thead><tbody>';
     if (count($data['rows']) === 0) {
-        echo '<tr><td colspan="7">No log entries yet.</td></tr>';
+        echo '<tr><td colspan="7">暂无日志。</td></tr>';
     }
     foreach ($data['rows'] as $row) {
         $action = (string) ($row->action ?? '');
@@ -311,7 +297,7 @@ function qiqi_autoaccept_output($vars)
     echo '</tbody></table>';
 
     if ($data['pages'] > 1) {
-        echo '<p>Page: ';
+        echo '<p>页码: ';
         $maxShow = min((int) $data['pages'], 40);
         for ($i = 1; $i <= $maxShow; $i++) {
             $url = $modulelink . '&logpage=' . $i;
@@ -322,7 +308,7 @@ function qiqi_autoaccept_output($vars)
             }
         }
         if ((int) $data['pages'] > $maxShow) {
-            echo ' … total ' . (int) $data['pages'];
+            echo ' … 共 ' . (int) $data['pages'] . ' 页';
         }
         echo '</p>';
     }
