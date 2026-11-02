@@ -1,0 +1,29 @@
+{
+  "schema": "1.0",
+  "type": "whmcs-addons",
+  "name": "qiqi_autoaccept",
+  "license": "proprietary",
+  "category": "utilities",
+  "description": {
+    "name": "Qiqi Auto Accept",
+    "tagline": "Auto-accept paid and free pending orders; optionally delete stale unpaid pending orders.",
+    "short": "Accepts Pending orders immediately when the invoice is Paid, or when a free-trial order is placed (amount=0), and can delete Unpaid Pending orders older than a set number of hours.",
+    "long": "Qiqi Auto Accept watches InvoicePaid, OrderPaid, and AfterShoppingCartCheckout and calls localAPI AcceptOrder for Paid+Pending and free Pending (amount=0, invoiceid=0) orders. AfterCronJob catches leftovers and optionally deletes stale Unpaid + Pending orders. Refunded, Cancelled, Collections, Fraud, and non-Pending orders are never modified.",
+    "features": [
+      "Accept paid pending orders immediately on InvoicePaid / OrderPaid",
+      "Accept free-trial Pending orders on AfterShoppingCartCheckout + cron catch-up",
+      "AfterCronJob catch-up for leftover Paid + Pending orders",
+      "Optional delete of stale Unpaid + Pending orders (default 6 hours)",
+      "Never touches Refunded, Cancelled, Collections, Fraud, or non-Pending orders",
+      "Admin log with today counts and last error"
+    ]
+  },
+  "support": {
+    "docs_url": "README.md"
+  },
+  "authors": [
+    {
+      "name": "Qiqi"
+    }
+  ]
+}

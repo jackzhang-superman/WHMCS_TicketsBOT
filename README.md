@@ -148,3 +148,12 @@ curl "https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getWebhookInfo"
 ## License
 
 MIT
+
+## Auto Accept addons
+
+Paid/Pending auto-accept modules (CyberFly + qiqi), including **5× error pause**,
+**one-shot Telegram alert per site bot**, and **rolling log retention**:
+
+→ see [`addons/README-AUTOACCEPT.md`](addons/README-AUTOACCEPT.md)
+
+Folders: `addons/Cyberfly_autoaccept/`, `addons/qiqi_autoaccept/`

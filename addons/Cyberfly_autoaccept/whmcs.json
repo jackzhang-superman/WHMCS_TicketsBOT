@@ -1,0 +1,28 @@
+{
+  "schema": "1.0",
+  "type": "whmcs-addons",
+  "name": "Cyberfly_autoaccept",
+  "license": "proprietary",
+  "category": "utilities",
+  "description": {
+    "name": "Cyberfly Auto Accept",
+    "tagline": "Auto-accept paid pending orders; optionally delete stale unpaid pending orders.",
+    "short": "Accepts Pending orders immediately when the invoice is Paid, and can delete Unpaid Pending orders older than a set number of hours.",
+    "long": "Cyberfly Auto Accept watches InvoicePaid and OrderPaid and calls localAPI AcceptOrder for Pending orders whose invoice is Paid. AfterCronJob catches leftovers missed by a gateway and optionally deletes stale Unpaid + Pending orders. Refunded, Cancelled, Collections, Fraud, and non-Pending orders are never modified. Zero-amount invoices that WHMCS marks Paid are treated as paid.",
+    "features": [
+      "Accept paid pending orders immediately on InvoicePaid / OrderPaid",
+      "AfterCronJob catch-up for leftover Paid + Pending orders",
+      "Optional delete of stale Unpaid + Pending orders (default 6 hours)",
+      "Never touches Refunded, Cancelled, Collections, Fraud, or non-Pending orders",
+      "Admin log with today counts and last error"
+    ]
+  },
+  "support": {
+    "docs_url": "README.md"
+  },
+  "authors": [
+    {
+      "name": "Cyberfly"
+    }
+  ]
+}
