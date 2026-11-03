@@ -4,7 +4,7 @@
   "name": "qiqi_autoaccept",
   "license": "proprietary",
   "category": "utilities",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": {
     "name": "Qiqi Auto Accept",
     "tagline": "自动接受已付与免费 Pending 订单；可选删除超时未付 Pending。",
