@@ -28,7 +28,7 @@ function Cyberfly_autoaccept_config()
         'description' => '发票变为 Paid 时立即接受 Pending 订单（InvoicePaid / OrderPaid，并有 AfterCronJob 补漏）。可选删除超过设定小时数的未支付 Pending 订单。不处理退款/取消/催收/欺诈/非 Pending 订单。零金额且被 WHMCS 标为 Paid 的发票按已付处理。需保持 WHMCS 系统 cron（crons/cron.php）运行。',
         'author' => 'Cyberfly',
         'language' => 'english',
-        'version' => '1.1.1',
+        'version' => '1.1.2',
         'fields' => [
             'enable_autoaccept' => [
                 'FriendlyName' => '启用：自动接受已付 Pending',
@@ -197,7 +197,7 @@ function Cyberfly_autoaccept_output($vars)
     }
 
     echo '<h2>Cyberfly Auto Accept</h2>';
-    echo '<p>支付后自动审单；同一发票动作连续失败 5 次则暂停并经<strong>本站</strong> Telegram bot 告警一次；日志自动滚动清理。</p>';
+    echo '<p>支付后自动审单；<strong>按发票/订单+动作</strong>连续失败 5 次则仅暂停该笔重试（其它订单照常自动审单），并经<strong>本站</strong> Telegram bot 告警一次；日志自动滚动清理。</p>';
 
     echo '<div class="row" style="margin-bottom:16px;">';
     echo '  <div class="col-md-3"><div class="panel panel-success"><div class="panel-heading">今日已接受</div>';
@@ -226,7 +226,7 @@ function Cyberfly_autoaccept_output($vars)
         . '。CF 与 qiqi 必须使用独立 bot，不得共用同一 bot token。</p>';
 
     echo '<h3>已暂停的发票动作</h3>';
-    echo '<p class="text-muted">连续 5 次失败后暂停重试，点「恢复」或成功路径清除后才会继续；每次暂停只告警一次。</p>';
+    echo '<p class="text-muted">暂停范围：按发票/订单+动作。连续 5 次失败后仅该行停重试，其它订单照常自动审单；对该行点「恢复」或成功路径清除后才会继续；每次暂停只告警一次。</p>';
     echo '<table class="table table-striped table-bordered"><thead><tr>';
     echo '<th>ID</th><th>发票</th><th>订单</th><th>动作</th><th>错误次数</th><th>暂停时间</th><th>最近错误</th><th></th>';
     echo '</tr></thead><tbody>';
@@ -242,7 +242,7 @@ function Cyberfly_autoaccept_output($vars)
         echo '<td>' . (int) $row->consecutive_errors . '</td>';
         echo '<td>' . $h($row->paused_at) . '</td>';
         echo '<td>' . $h($row->last_error) . '</td>';
-        echo '<td><form method="post" action="' . $h($modulelink) . '" style="margin:0;" onsubmit="return confirm(\'确认恢复重试？\');">';
+        echo '<td><form method="post" action="' . $h($modulelink) . '" style="margin:0;" onsubmit="return confirm(\'确认恢复该订单重试？\');">';
         echo '<input type="hidden" name="aa_resume_id" value="' . (int) $row->id . '"/>';
         echo '<button type="submit" class="btn btn-xs btn-primary">恢复</button></form></td>';
         echo '</tr>';

@@ -53,11 +53,11 @@ YOUR_CHAT_ID
 
 告警文案示例含义：
 
-「⏸ Auto Accept 已暂停」→ 站点 / 动作 / 发票 / 订单 / 连续错误次数 / 摘要；说明已停止重试；请到 WHMCS → 插件模块 → {SITE} Auto Accept 点「恢复」。
+「⏸ 该订单 Auto Accept 已停重试」→ 站点 / 动作 / 发票 / 订单 / 连续错误次数 / 摘要；说明**仅此发票+动作**不再自动重试，其它订单不受影响；处理完 Username Already Exists 等问题后，可在插件「已暂停」列表**对该行**点「恢复」再试。
 
 ### 恢复（Resume）
 
-1. WHMCS → 插件模块 →（Cyberfly|Qiqi）Auto Accept → **已暂停**表 → **恢复**  
+1. WHMCS → 插件模块 →（Cyberfly|Qiqi）Auto Accept → **已暂停**列表 → 对该行点 **恢复**（不是整插件暂停）  
 2. 或 SQL：
 
 ```sql
