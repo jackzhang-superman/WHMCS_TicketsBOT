@@ -1038,14 +1038,9 @@ class AutoAccept
                 return htmlspecialchars((string) $t, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
             };
             $siteLabel = self::SITE_LABEL;
-            $text = "⏸ <b>该订单 Auto Accept 已停重试</b>\n"
-                . "站点: <b>" . $esc($siteLabel) . "</b>\n"
-                . "发票 #<code>" . (int) $invoiceId . "</code> / 订单 #<code>" . (int) $orderId . "</code>\n"
-                . "动作: <code>" . $esc($action) . "</code>\n"
-                . "连续错误次数: <b>" . (int) $count . "</b>\n"
-                . "摘要: " . $esc($summary) . "\n\n"
-                . "仅此发票+动作不再自动重试；其它订单不受影响。"
-                . "处理完 Username Already Exists 等问题后，可在插件「已暂停」列表对该行点「恢复」再试。";
+            $text = "⏸ <b>Auto Accept 已停重试</b>\n"
+                . $esc($siteLabel) . " · 发票 #<code>" . (int) $invoiceId . "</code> / 订单 #<code>" . (int) $orderId . "</code>\n"
+                . $esc($summary);
 
             // Prefer site helper when no token override (uses that site's bot only).
             if ($overrideToken === '' && function_exists('tg_send_message')) {

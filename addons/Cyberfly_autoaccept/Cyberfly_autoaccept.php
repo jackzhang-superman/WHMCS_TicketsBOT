@@ -28,7 +28,7 @@ function Cyberfly_autoaccept_config()
         'description' => '发票变为 Paid 时立即接受 Pending 订单（InvoicePaid / OrderPaid，并有 AfterCronJob 补漏）。可选删除超过设定小时数的未支付 Pending 订单。不处理退款/取消/催收/欺诈/非 Pending 订单。零金额且被 WHMCS 标为 Paid 的发票按已付处理。需保持 WHMCS 系统 cron（crons/cron.php）运行。',
         'author' => 'Cyberfly',
         'language' => 'english',
-        'version' => '1.1.2',
+        'version' => '1.1.3',
         'fields' => [
             'enable_autoaccept' => [
                 'FriendlyName' => '启用：自动接受已付 Pending',

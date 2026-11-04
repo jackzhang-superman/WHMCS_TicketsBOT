@@ -13,7 +13,7 @@
 
 `qiqi_autoaccept` 另可自动接受 **免费** Pending（`enable_free_autoaccept`）。
 
-版本：CyberFly **1.1.1** / qiqi **1.2.1**（管理页与暂停 Telegram 文案为中文）。
+版本：CyberFly **1.1.3** / qiqi **1.2.3**（管理页与暂停 Telegram 文案为中文；暂停 TG 告警为极简三行）。
 
 ## 安装
 
@@ -49,11 +49,11 @@ YOUR_CHAT_ID
 - 键：发票 id + 动作（`accept` / `delete`）；免费单用 `invoice_id=0` + 订单 id。  
 - 同一键连续失败 **5** 次 → `paused=1`，停止重试，经该站 bot 发 **一条** HTML Telegram，`alert_sent=1`。  
 - 成功会清零计数/暂停；同一故障不会刷屏。  
-- 消息含站点/动作/发票/订单/连续错误次数/摘要（无密钥）。
+- 消息含站点标签、发票/订单号、错误摘要（无密钥）；不含动作行/次数行/恢复说明。
 
 告警文案示例含义：
 
-「⏸ 该订单 Auto Accept 已停重试」→ 站点 / 动作 / 发票 / 订单 / 连续错误次数 / 摘要；说明**仅此发票+动作**不再自动重试，其它订单不受影响；处理完 Username Already Exists 等问题后，可在插件「已暂停」列表**对该行**点「恢复」再试。
+「⏸ Auto Accept 已停重试」→ `{SITE_LABEL} · 发票 #… / 订单 #…` + 错误摘要（约 1–2 行）。
 
 ### 恢复（Resume）
 
